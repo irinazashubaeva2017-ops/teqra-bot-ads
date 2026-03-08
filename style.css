@@ -1,48 +1,55 @@
 body {
-    background-color: #0f0f0f;
+    background-color: #0b0b0b;
     color: white;
-    font-family: sans-serif;
+    font-family: 'Segoe UI', sans-serif;
     margin: 0;
     padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+.container {
+    width: 100%;
+    max-width: 400px;
     text-align: center;
 }
-
 #brand {
-    font-size: 24px;
-    letter-spacing: 2px;
+    font-size: 28px;
+    letter-spacing: 3px;
+    margin-bottom: 30px;
 }
-
 #brand span {
-    color: #00d4ff; /* Голубой акцент в стиле будущего */
+    color: #00e5ff;
 }
-
 .user-card {
-    background: #1a1a1a;
+    background: #151515;
     padding: 15px;
-    border-radius: 12px;
-    margin: 20px 0;
-    border: 1px solid #333;
+    border-radius: 15px;
+    border: 1px solid #222;
+    margin-bottom: 25px;
 }
-
 .menu {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
 }
-
 .btn {
-    background: #00d4ff;
-    color: black;
+    background: linear-gradient(45deg, #0081ff, #00e5ff);
+    color: white;
     border: none;
-    padding: 15px;
-    border-radius: 8px;
+    padding: 18px;
+    border-radius: 12px;
     font-weight: bold;
+    font-size: 16px;
     cursor: pointer;
+    transition: 0.3s;
 }
-
+.btn:active {
+    transform: scale(0.95);
+}
 .btn-close {
-    background: transparent;
-    color: #666;
+    margin-top: 40px;
+    background: none;
     border: none;
-    margin-top: 30px;
+    color: #555;
+    cursor: pointer;
 }
