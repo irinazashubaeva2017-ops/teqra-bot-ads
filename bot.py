@@ -7,7 +7,7 @@ from aiohttp import web
 import database
 
 # ВСТАВЬ СВОЙ ТОКЕН НИЖЕ
-API_TOKEN = 'ТВОЙ_ТОКЕН_ИЗ_BOTFATHER'
+API_TOKEN = '8280760100:AAGlB3ENTdxtVsZN0NGBVbTvoICAoMtlp2s'
 
 logging.basicConfig(level=logging.INFO)
 bot = Bot(token=API_TOKEN)
@@ -51,3 +51,4 @@ async def send_welcome(message: types.Message):
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True, on_startup=on_startup)
+
