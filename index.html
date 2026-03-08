@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEQRA Ads</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 id="brand">TEQRA <span>ADS</span></h1>
+        </header>
+        
+        <div class="user-card">
+            <p>Привет, <span id="user-name">Партнер</span>!</p>
+        </div>
+
+        <div class="menu">
+            <button class="btn">📊 Аналитика</button>
+            <button class="btn">📢 Каталог каналов</button>
+            <button class="btn">✍️ Генератор текста</button>
+        </div>
+
+        <footer>
+            <button onclick="tg.close()" class="btn-close">Закрыть</button>
+        </footer>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand(); // Разворачиваем на всё окно
+        
+        // Берем имя пользователя прямо из Телеграм
+        if (tg.initDataUnsafe.user) {
+            document.getElementById("user-name").innerText = tg.initDataUnsafe.user.first_name;
+        }
+    </script>
+</body>
+</html>
