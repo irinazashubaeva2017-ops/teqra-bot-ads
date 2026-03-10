@@ -1,31 +1,51 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TEQRA Ads</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-</head>
-<body>
-    <div class="container">
-        <h1 id="brand">TEQRA <span>ADS</span></h1>
-        <div class="user-card">
-            <p>Привет, <span id="user-name">Партнер</span>!</p>
-        </div>
-        <div class="menu">
-            <button class="btn" onclick="alert('Скоро: Аналитика')">📊 Аналитика</button>
-            <button class="btn" onclick="alert('Скоро: Каталог')">📢 Каталог каналов</button>
-            <button class="btn" onclick="alert('Скоро: Генератор')">✍️ Генератор текста</button>
-        </div>
-        <button onclick="window.Telegram.WebApp.close()" class="btn-close">Закрыть</button>
-    </div>
-    <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand();
-        if (tg.initDataUnsafe.user) {
-            document.getElementById("user-name").innerText = tg.initDataUnsafe.user.first_name;
-        }
-    </script>
-</body>
-</html>
+import logging
+import os
+from aiogram import Bot, Dispatcher, types
+from aiogram.utils import executor
+from aiogram.types import WebAppInfo
+from aiohttp import web
+import database
+
+# ВСТАВЬ СВОЙ ТОКЕН НИЖЕ
+API_TOKEN = 'ТВОЙ_ТОКЕН_ИЗ_BOTFATHER'
+
+logging.basicConfig(level=logging.INFO)
+bot = Bot(token=API_TOKEN)
+dp = Dispatcher(bot)
+
+database.init_db()
+
+# --- ЭТОТ БЛОК УБИРАЕТ ОШИБКУ PORT TIMEOUT НА RENDER ---
+async def handle(request):
+    return web.Response(text="Ads Tool is Live!")
+
+app = web.Application()
+app.router.add_get("/", handle)
+
+async def on_startup(dp):
+    runner = web.AppRunner(app)
+    await runner.setup()
+    # Берем порт, который дает Render, или 10000 по умолчанию
+    port = int(os.environ.get("PORT", 10000))
+    site = web.TCPSite(runner, '0.0.0.0', port)
+    await site.start()
+    print(f"Server started on port {port}")
+# -------------------------------------------------------
+
+@dp.message_handler(commands=['start'])
+async def send_welcome(message: types.Message):
+    database.add_user(message.from_user.id, message.from_user.username)
+    
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    # Ссылка на твой Mini App (уже настроенный на GitHub Pages)
+    web_app_url = "https://irinazashubaeva2017-ops.github.io/teqra-bot-ads/"
+    markup.add(types.KeyboardButton("🚀 Создать рекламу", web_app=WebAppInfo(url=web_app_url)))
+    
+    await message.answer(
+        f"Привет! Это твой бесплатный инструмент для рекламы.\n"
+        "Нажми кнопку ниже, чтобы запустить генератор объявлений.",
+        reply_markup=markup
+    )
+
+if name == '__main__':
+    executor.start_polling(dp, skip_updates=True, on_startup=on_startup)
